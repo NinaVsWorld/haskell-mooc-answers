@@ -175,7 +175,11 @@ merge a b = case (a,b) of
 --     ==> ("Mouse",8)
 
 mymaximum :: (a -> a -> Bool) -> a -> [a] -> a
-mymaximum bigger initial xs = todo
+mymaximum bigger initial xs = case xs of
+    [] -> initial
+    (x:xs)
+     | bigger x initial -> mymaximum bigger x xs
+     | otherwise -> mymaximum bigger initial xs
 
 ------------------------------------------------------------------------------
 -- Ex 9: define a version of map that takes a two-argument function
