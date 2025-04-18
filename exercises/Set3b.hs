@@ -193,7 +193,9 @@ mymaximum bigger initial xs = case xs of
 -- Use recursion and pattern matching. Do not use any library functions.
 
 map2 :: (a -> b -> c) -> [a] -> [b] -> [c]
-map2 f as bs = todo
+map2 f as bs = case (as, bs) of
+    (x:xs, y:ys) -> f x y : map2 f xs ys
+    (_, _) -> []
 
 ------------------------------------------------------------------------------
 -- Ex 10: implement the function maybeMap, which works a bit like a
