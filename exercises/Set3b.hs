@@ -219,4 +219,7 @@ map2 f as bs = case (as, bs) of
 --   ==> []
 
 maybeMap :: (a -> Maybe b) -> [a] -> [b]
-maybeMap f xs = todo
+maybeMap f [] = []
+maybeMap f (x:xs) = case f x of
+    Just y -> y : maybeMap f xs
+    Nothing -> maybeMap f xs
