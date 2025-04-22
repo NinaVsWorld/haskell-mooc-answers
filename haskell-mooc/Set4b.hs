@@ -114,7 +114,7 @@ myHead :: [a] -> Maybe a
 myHead xs = foldr headHelper Nothing xs
 
 headHelper :: a -> Maybe a -> Maybe a
-headHelper x acc = Just x
+headHelper x _ = Just x
 
 ------------------------------------------------------------------------------
 -- Ex 7: get the last element of a list with a fold. Define lasthelper
