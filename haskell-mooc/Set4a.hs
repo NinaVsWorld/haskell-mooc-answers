@@ -51,7 +51,12 @@ allEqual (x:xs) = all (==x) xs
 --   distinct [1,2] ==> True
 
 distinct :: Eq a => [a] -> Bool
-distinct = todo
+distinct list = case list of
+    [] -> True
+    [x] -> True
+    (x:xs)
+     | length (filter (==x) xs) == 0 -> distinct xs
+     | otherwise -> False
 
 ------------------------------------------------------------------------------
 -- Ex 3: implement the function middle that returns the middle value
@@ -64,7 +69,8 @@ distinct = todo
 --   middle 'b' 'a' 'c'  ==> 'b'
 --   middle 1 7 3        ==> 3
 
-middle = todo
+middle :: Ord a => a -> a -> a -> a
+middle x y z = todo
 
 ------------------------------------------------------------------------------
 -- Ex 4: return the range of an input list, that is, the difference
