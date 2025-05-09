@@ -70,7 +70,10 @@ distinct list = case list of
 --   middle 1 7 3        ==> 3
 
 middle :: Ord a => a -> a -> a -> a
-middle x y z = todo
+middle x y z
+ | x /= max x (max y z) && x /= min x (min y z) = x
+ | y /= max x (max y z) && y /= min x (min y z) = y
+ | otherwise = z
 
 ------------------------------------------------------------------------------
 -- Ex 4: return the range of an input list, that is, the difference
@@ -85,8 +88,8 @@ middle x y z = todo
 --   rangeOf [4,2,1,3]          ==> 3
 --   rangeOf [1.5,1.0,1.1,1.2]  ==> 0.5
 
-rangeOf :: [a] -> a
-rangeOf = todo
+rangeOf :: (Num a, Ord a) => [a] -> a
+rangeOf list = maximum list - minimum list 
 
 ------------------------------------------------------------------------------
 -- Ex 5: given a (non-empty) list of (non-empty) lists, return the longest
@@ -104,7 +107,18 @@ rangeOf = todo
 --   longest [[1,2,3],[4,5],[6]] ==> [1,2,3]
 --   longest ["bcd","def","ab"] ==> "bcd"
 
-longest = todo
+longest :: Ord a => [[a]] -> [a]
+longest list = case list of
+    [] -> [] 
+    [x] -> x
+    x:y:xs
+     | length x > length y -> longest (x:xs)
+     | length x == length y -> case (x,y) of
+                                 (a:as, b:bs)
+                                   | a < b -> longest (x:xs)
+                                   | a > b -> longest (y:xs)
+                                   | otherwise -> longest (x:xs)
+     | otherwise -> longest (y:xs)
 
 ------------------------------------------------------------------------------
 -- Ex 6: Implement the function incrementKey, that takes a list of
@@ -120,8 +134,12 @@ longest = todo
 --   incrementKey True [(True,1),(False,3),(True,4)] ==> [(True,2),(False,3),(True,5)]
 --   incrementKey 'a' [('a',3.4)] ==> [('a',4.4)]
 
-incrementKey :: k -> [(k,v)] -> [(k,v)]
-incrementKey = todo
+incrementKey :: (Ord k, Num v) => k -> [(k,v)] -> [(k,v)]
+incrementKey key list = case list of
+    [] -> []
+    (k,v):xs
+     | key == k -> (k, v + 1) : incrementKey key xs
+     | otherwise -> (k, v) : incrementKey key xs
 
 ------------------------------------------------------------------------------
 -- Ex 7: compute the average of a list of values of the Fractional
